@@ -2,7 +2,7 @@ const ViewTickets = ()=>{
 
     return(
         
-            <form className="max-w-md mx-auto"> 
+            <form className="max-w-md mx-auto "> 
                 <div className="text-white text-lg flex justify-center items-center pt-6  pb-6">Vendidos:(num de boletos)</div>  
                 <div className="relative ">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
