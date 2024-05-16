@@ -35,14 +35,14 @@ const TicketBuy = () => {
     }, []);
 
     if (!prizes) {
-        return <div className="flex justify-center items-center min-h-screen">
+        return (<div className="flex justify-center items-center min-h-screen">
             <div className="relative w-32 h-32">
                 <div className="absolute top-0 left-0 animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-red-500"></div>
                 <div className="absolute top-0 left-0 flex items-center justify-center h-32 w-32">
                     <span className="text-white text-sm">Cargando...</span>
                 </div>
             </div>
-        </div>
+        </div>);
     }
     const handleTicketNumberChange = (e) => {
         let value = e.target.value;
