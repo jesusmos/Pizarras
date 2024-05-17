@@ -25,10 +25,20 @@ const TicketBuy = () => {
     useEffect(() => {
         Promise.all([
             fetch('/api/ticketBuy')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => setPrizes(data.result[0])),
             fetch(`/api/topes`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => setTopePermitido(data.tope))
         ])
             .catch(error => console.error('Error:', error));
