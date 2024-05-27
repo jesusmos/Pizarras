@@ -9,9 +9,6 @@ import { useRouter } from 'next/navigation'
 import AlertMenu from "../alerts/menu/AlertMenu";
 import { useState } from "react";
 
-
-
-
 const ViewMenu = () => {
     const { getUserData } = useSession();
     const router = useRouter();
@@ -33,23 +30,33 @@ const ViewMenu = () => {
 
 
     if (typeof window !== 'undefined') {
-        userData = JSON.parse(localStorage.getItem('userData'));
+        userData = JSON.parse(sessionStorage.getItem('userData'));
 
         const currentHour = new Date().getHours();
 
-        // currentHour >= 18 || currentHour < 8
+
+        // currentHour >= 18 || currentHour < 0
         if (currentHour >= 18 || currentHour < 0) {
             accessBlocked = true;
         }
     }
-
-
 
     const handleTypeDraw = () => {
         if (!accessBlocked)
             router.push('/typeDraw')
     }
 
+    const handleboxCut = async (userData) => {
+        router.push('/boxCut')
+
+
+    }
+    const handleViewSell = () => {
+        router.push('/viewTickects')
+    }
+    const handleViewAwardedTickets = () => {
+        router.push('/viewAwards')
+    }
 
     return (
         <div>
@@ -80,19 +87,25 @@ const ViewMenu = () => {
                             </button>
                         </div>
                         <div className="relative">
-                            <button className="w-full rounded-lg bg-red-700 text-white h-9 relative">
+                            <button
+                                onClick={() => handleViewSell()}
+                                className="w-full rounded-lg bg-red-700 text-white h-9 relative">
                                 Ventas del dia
                                 <ImStatsDots className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4" />
                             </button>
                         </div>
                         <div className="relative">
-                            <button className="w-full rounded-lg bg-red-700 text-white h-9 relative" >
+                            <button
+                                onClick={() => handleboxCut(userData)}
+                                className="w-full rounded-lg bg-red-700 text-white h-9 relative" >
                                 Corte de caja
                                 <FaCashRegister className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4" />
                             </button>
                         </div>
                         <div className="relative">
-                            <button className="w-full rounded-lg bg-red-700 text-white h-9 relative">
+                            <button
+                                onClick={handleViewAwardedTickets}
+                                className="w-full rounded-lg bg-red-700 text-white h-9 relative">
                                 Boletos premiados
                                 <GiStarStruck className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4" />
                             </button>
