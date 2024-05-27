@@ -2,6 +2,7 @@ import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
 
 const generatePDF = async (data, fecha) => {
+
     // Crear un nuevo documento PDF
     var doc = new jsPDF({
         orientation: "portrait",
@@ -49,6 +50,7 @@ const generatePDF = async (data, fecha) => {
         // Si el usuario elige imprimir, abrir URL en una nueva pestaña
         window.open(url);
     }
+    window.location.reload();
 
 }
 
