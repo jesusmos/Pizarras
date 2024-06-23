@@ -1,12 +1,12 @@
 'use client'
+import useSession from "@/hook/useSession";
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaUserCircle } from "react-icons/fa";
 import { PiPasswordFill } from "react-icons/pi";
-import { set, useForm } from "react-hook-form"
-import useSession from "@/hook/useSession";
-import { useRouter } from 'next/navigation'
-import Swal from 'sweetalert2'
-import { useState } from "react";
-import { error, loading } from "../alerts/menu/Alerts";
+import Swal from 'sweetalert2';
+import { error } from "../alerts/menu/Alerts";
 
 const LoginForm = () => {
   const { login } = useSession();
@@ -39,6 +39,18 @@ const LoginForm = () => {
   }
 
   const processData = (data) => {
+    if (data[0]?.Estatus === 'baja'){
+      Swal.fire({
+        position: 'top-center',
+        title: 'Error',
+        text: 'Usuario bloqueado por el admistrador',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 2500
+      })
+      setLoading(false)
+      return;
+    }
     if (data.length === 0) {
       Swal.fire({
         position: 'top-center',
@@ -51,16 +63,17 @@ const LoginForm = () => {
       setLoading(false)
       return;
     }
+  
     let time = data[0].requestTime.indexOf('T') > 0 ? data[0].requestTime.split('T')[1].split('.')[0] : data[0].requestTime;
     let hour = parseInt(time.split(':')[0]);
 
 
-    //hour < 18 && hour >= 8
+    //hour < 18 && hour >= 0
 
     if (hour < 18 && hour >= 0) {
       // Redirige al usuario a la página del menú
       login(data[0])
-      localStorage.setItem('userData', JSON.stringify(data[0]));
+      // localStorage.setItem('userData', JSON.stringify(data[0]));
       router.push('/menu')
     } else {
       // Muestra un mensaje de error

@@ -1,4 +1,7 @@
+'use client'
 import Swal from "sweetalert2";
+import generatePDFBoxCut from "../../boxCut/pdfBoxCut";
+import { FaHome } from 'react-icons/fa'; // Asegúrate de importar el ícono que estás utilizando
 
 export const ErrorPrizes = () => {
     Swal.fire({
@@ -11,7 +14,7 @@ export const ErrorTope = () => {
     Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Este boleto a llegado a su tope permitido',
+        text: 'Error en el tope de boletos',
     });
 }
 export const loading = (pathname) => {
@@ -44,3 +47,44 @@ export const ValidateBox = () => {
         text: 'Campo vacio o incorrecto',
     });
 }
+export const prizesSeries = () => {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El valor debe ser mayor para poder generar la serie ',
+    });
+}
+export const selectDate = async (dates) => {
+    const { value: selectedDate } = await Swal.fire({
+        title: 'Selecciona una fecha',
+        input: 'select',
+        inputOptions: dates.reduce((options, date) => {
+            let formattedDate = new Date(date.Fecha).toISOString().split('T')[0];
+            options[formattedDate] = formattedDate;
+            return options;
+        }, {}),
+        inputPlaceholder: 'Selecciona una fecha',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+    });
+
+    if (selectedDate) {
+        return dates.find(date => new Date(date.Fecha).toISOString().split('T')[0] === selectedDate);
+    }
+};
+export const printBoxCut = async (data) => {
+
+    const { value: action } = await Swal.fire({
+        title: '¿Deseas hacer un corte de caja?',
+        showDenyButton: true,
+        confirmButtonText: `Corte de caja`,
+        denyButtonText: `Cancelar`,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+    });
+
+    if (action) {
+        generatePDFBoxCut(data) // Asume que generatePDF es la función que imprime el corte de caja
+    }
+};
